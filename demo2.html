@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React练习</title>
+</head>
+<body>
+	<div id="app"></div>
+
+	<script src="js/react.development.js"> </script> 
+	<script src="js/react-dom.development.js"> </script>
+	<script src="js/babel.min.js"></script>
+	
+	<script type="text/babel">
+        const myStyle ={
+        	backgroundColor:'purple',
+        	color:'green',
+        	fontSize:30	
+        };
+
+		ReactDOM.render(
+			<div>
+				<h2>多层嵌套</h2>
+				<div style={myStyle}>颜色块</div>
+				<p>测试</p>
+			</div>
+		,document.getElementById('app'));
+
+	</script>
+</body>
+</html>

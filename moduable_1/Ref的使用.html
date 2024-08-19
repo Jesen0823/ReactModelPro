@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ref的使用</title>
+</head>
+<body>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+<script type="text/babel">
+    // Ref用于访问在render方法中创建的DOM节点或React元素
+    // 如果可以通过申明式实现，则尽量避免使用refs
+    class CustomTextInput extends React.Component {
+        constructor(props) {
+            super(props);
+            // 绑定ref
+            this.myInput = React.createRef();
+        }
+
+        render() {
+            return (
+                <div>
+                    <label>
+                        <input ref={this.myInput} type="text" placeholder="请输入内容"/>
+                    </label>
+                    <input type="button" value="获取焦点" onClick={() => this.focusTextInput()}/>
+                </div>
+            );
+        }
+
+        focusTextInput() {
+            this.myInput.current.focus(); // 获取焦点
+        }
+    }
+
+    ReactDOM.render(
+        <CustomTextInput/>,
+        document.getElementById('app')
+    );
+</script>
+</body>
+</html>

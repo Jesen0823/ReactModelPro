@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Props和state</title>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="../js/react.development.js"> </script>
+<script src="../js/react-dom.development.js"> </script>
+<script src="../js/babel.min.js"></script>
+<script src="../js/prop-types.js"></script>
+
+<script type="text/babel">
+    // 定义组件类
+    // state是组件内部的状态，必须通过setState()来修改
+    // props是组件间传值的，是只读的，不可修改
+    class Dog extends React.Component{
+
+        constructor(props) {
+            super(props);
+            // 初始化state
+            this.state ={
+                age:1,
+                dogFriends:[] //狗友
+            }
+        }
+
+        // 设置props属性默认值
+        static defaultProps ={
+            name :"旺财",
+            gender:"公"
+        };
+
+        // 设置props属性的类型约束
+        static propTypes = {
+            name: PropTypes.string.isRequired,
+            gender: PropTypes.string
+        }
+
+        render(){
+            const {name,gender} = this.props;
+            const {age,dogFriends} = this.state;
+
+            return (
+                <div>
+                    <p>狗名：{name}, 性别：{gender}</p>
+                    <p>年龄：{age}</p>
+                    <p>狗友：</p>
+                    <ul>
+                        {dogFriends.map((friend,index)=>(
+                            <li key="={index">{friend}</li>
+                        ))}
+                    </ul>
+                    <button onClick={()=>{this.addAgeEvent()}}>增加一岁</button>
+                </div>
+            )
+        }
+
+        addAgeEvent(){
+            let tempArr = this.state.dogFriends;
+            tempArr.push('狗友'+Math.floor(Math.random()*100));
+            this.setState({
+                age:this.state.age+1,
+                dogFriends: tempArr
+            })
+        }
+    }
+
+    // 渲染
+    ReactDOM.render(
+        <Dog gender="母"/>,
+        document.getElementById('app')
+    );
+
+</script>
+</body>
+</html>

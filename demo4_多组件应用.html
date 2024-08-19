@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多组件的应用</title>
+    <style>
+        #app {
+            margin: 50px auto;
+            width: 600px;
+        }
+
+        fieldset {
+            border: 1px solid purple;
+            margin-bottom: 20px;
+        }
+
+        fieldset input {
+            width: 200px;
+            height: 30px;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 600px;
+            border: 2px solid purple;
+            text-align: center;
+        }
+
+        thead {
+            background-color: purple;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/babel.min.js"></script>
+<script src="js/prop-types.js"></script>
+<script type="text/babel">
+    // 父组件
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            // 初始化状态
+            this.state = {
+                studentArr: [
+                    {name: '云龙', age: 26, gender: '男', phone: '19989990899'},
+                    {name: '青珂', age: 30, gender: '男', phone: '19989990899'},
+                    {name: '云骢', age: 25, gender: '男', phone: '19989990899'},
+                    {name: '云韬', age: 32, gender: '男', phone: '19989990899'},
+                ]
+            }
+
+            // 绑定this
+            this.deleteDataWithIndex = this.deleteDataWithIndex.bind(this);
+            this.addDataToArr = this.addDataToArr(this);
+        }
+
+        deleteDataWithIndex(index){
+            const {studentArr} = this.state;
+            studentArr.splice(index,1);
+            this.setState({studentArr})
+        }
+
+        addDataToArr(student){
+            const {studentArr} = this.state;
+            studentArr.unshift(student);
+            this.setState(studentArr);
+        }
+
+        render() {
+            return (
+                <div>
+                    <AddModule addDataArr={this.addDataToArr}/>
+                    <ShowModule studentArr={this.state.studentArr} delDataArr={this.deleteDataWithIndex}/>
+                </div>
+            )
+        }
+    }
+
+    // 子组件-添加组件
+    class AddModule extends React.Component {
+        constructor(props) {
+            super(props);
+            // 绑定ref
+            this.stuName = React.createRef();
+            this.stuAge = React.createRef();
+            this.stuGender = React.createRef();
+            this.stuPhone = React.createRef();
+        }
+        static propTypes={
+            addDataArr:PropTypes.func.isRequired
+        }
+        render() {
+            return (
+                <div>
+                    <fieldset>
+                        <div>
+                            <span>姓名：</span>
+                            <input ref={this.stuName} type="text" placeholder="请输入姓名"/>
+                        </div>
+                        <div>
+                            <span>年龄：</span>
+                            <input ref={this.stuAge} type="text" placeholder="请输入年龄"/>
+                        </div>
+                        <div>
+                            <span>性别：</span>
+                            <select ref={this.stuGender}>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span>手机：</span>
+                            <input ref={this.stuPhone} type="text" placeholder="请输入手机号码"/>
+                        </div>
+                        <button onClick={()=>this.clickAddEvent()}>创建新用户</button>
+                    </fieldset>
+                </div>
+            )
+        }
+
+        clickAddEvent(){
+            // 读取用户输入
+            const name = this.stuName.current.value;
+            const age = this.stuAge.current.value;
+            const gender = this.stuGender.current.value;
+            const phone = this.stuPhone.current.value;
+            // 数据校验
+            if(!name||!age||!gender||!phone){
+                alert('输入的数据不能为空！');
+                return
+            }
+            this.props.addDataArr({name,age,gender,phone});
+            // 清除输入框
+            this.stuName.current.value='';
+            this.stuAge.current.value='';
+            this.stuGender.current.value='男';
+            this.stuPhone.current.value='';
+        }
+    }
+
+    // 子组件-展示组件
+    class ShowModule extends React.Component {
+        // 约束props的属性类型
+        static propTypes = {
+            studentArr: PropTypes.array.isRequired,
+            delDataArr:PropTypes.func.isRequired
+        };
+
+        render() {
+            const {studentArr,delDataArr} = this.props;
+            //console.log(this.props.studentArr);
+            return (
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>姓名</td>
+                            <td>性别</td>
+                            <td>年龄</td>
+                            <td>手机</td>
+                            <td>删除</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            studentArr.map((stu, index) => (
+                                <tr key={index}>
+                                    <td>{stu.name}</td>
+                                    <td>{stu.gender}</td>
+                                    <td>{stu.age}</td>
+                                    <td>{stu.phone}</td>
+                                    <td>
+                                        <button onClick={()=>delDataArr(index)}>删除</button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+    }
+
+    // 渲染
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('app')
+    )
+
+</script>
+</body>
+</html>

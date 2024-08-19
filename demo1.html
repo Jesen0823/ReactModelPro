@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<div id="app1"></div>
+	<div id="app2"></div>
+
+	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script> 
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+
+	<script>
+		// a)通过典型js方式：
+		// 1. 创建变量
+		let myClass = 'it-like';
+		let myContent = '第一个Demo';
+		// 2. 创建DOM
+		const vDOM = React.createElement('span',{className:myClass},myContent);
+		// 3. 将虚拟DOM渲染到页面元素
+		ReactDOM.render(vDOM,document.getElementById('app1'));	
+	</script>
+
+	<script type="text/babel">
+		// b) JSX的方式
+		const vDom2 = <span className={myClass}>{myContent}</span>;
+		ReactDOM.render(vDom2,document.getElementById('app2'));
+
+	</script>
+</body>
+</html>

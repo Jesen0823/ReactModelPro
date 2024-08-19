@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/babel.min.js"></script>
+<script src="js/prop-types.js"></script>
+<script type="text/babel">
+
+    class Login extends React.Component{
+        constructor(props) {
+            super(props);
+
+            this.stste ={
+                userName:'',
+                userPwd:''
+            }
+        }
+
+        render(){
+            const {userName,userPwd} = this.stste;
+            return (
+                <form action="" onSubmit={()=>this.login()}>
+                    <div>
+                        <span>用户名:</span>
+                        <input type="text" value={userName} onChange={(e)=>this.onNameChange(e)}/>
+                    </div>
+                    <div>
+                        <span>密码:</span>
+                        <input type="password" value={userPwd} onChange={(e)=>this.onPwdChange(e)}/>
+                    </div>
+                    <input type="submit" value="登录"/>
+                </form>
+            )
+        }
+
+        onNameChange(e){
+            const userName = e.target.value;
+            this.setState({userName});
+        }
+        onPwdChange(e){
+            const userpwd = e.target.value;
+            this.setState({userpwd});
+        }
+
+        login(){
+            const {name,pwd} = this.stste;
+            alert(`用户名：${name},密码:${pwd}`);
+            return;
+        }
+    }
+    // 渲染
+    ReactDOM.render(
+        <Login/>,
+        document.getElementById('app')
+    )
+</script>
+</body>
+</html>

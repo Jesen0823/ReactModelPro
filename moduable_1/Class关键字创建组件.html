@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class关键字创建组件</title>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+    class MyModule extends React.Component{
+        // 重写方法
+        render(){
+            return (
+                <div>
+                    <h2>组件化之{this.props.name},arg:{this.props.myArg}</h2>
+                    <img src="../img/aol_net.png" width="200"/>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(
+        <MyModule name="Class对象传参" myArg="02"/>,
+        document.getElementById('app')
+    );
+</script>
+</body>
+</html>

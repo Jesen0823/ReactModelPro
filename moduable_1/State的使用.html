@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React中state的使用</title>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+    // 创建组件类
+    class Mode extends React.Component {
+        constructor(props) {
+            super(props);
+            // 初始化状态
+            this.state = {
+                name: "狸花猫",
+                gender: "雄",
+                intro: "睡觉"
+            }
+        }
+
+        render() {
+            const {name, gender, intro} = this.state;
+            return (
+                <div>
+                    <h3>我是：{name},性别：{gender}, 特性：{intro}</h3>
+                    <button onClick={() => this.clickEvent()}>换一个</button>
+                </div>
+            );
+        }
+
+        clickEvent() {
+            alert('换一个');
+            this.setState(
+                {
+                    name: "金渐层",
+                    gender: "雌性",
+                    intro: "调皮"
+                }
+            );
+        }
+    }
+
+    //渲染到DOM容器
+    ReactDOM.render(
+        <Mode/>,
+        document.getElementById('app')
+    );
+</script>
+</body>
+</html>
