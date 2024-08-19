@@ -17,6 +17,8 @@
 /../node_modules
 # dependencies
 /node_modules
+demo-todo-list-v1/node_modules/.*/
+demo-todo-list-v2/node_modules/.*/
 /../.pnp
 .pnp.js
 
