@@ -2,45 +2,28 @@ import React, {Component} from "react";
 import Head from './component/Head'
 import List from './component/List'
 import Footer from './component/Footer'
+import store  from "./store";
 
 class App extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            todos: [
-                {id: 1, title: '看书一小时', finished: false},
-                {id: 2, title: '跑步40分钟', finished: false},
-                {id: 3, title: '完成React学习', finished: false},
-                {id: 4, title: '给兰花浇水', finished: false}
-            ],
-            finishCount: 0
-        }
     }
 
     render() {
-        const {todos, finishCount} = this.state;
         return (
             <div class="todo-container">
                 <div class="todo-wrap">
                     {/*头部*/}
-                    <Head
-                        lastTodoId={todos.length === 0 ? 0 : todos[todos.length - 1].id}
-                        addOneTodo={this._addOneNewTodo}
-                    />
+                    <Head/>
                     {/*列表*/}
-                    <List
-                        todos={todos}
-                        removeTodo={this._removeTodoWithId}
-                        changeTodoCheck={this._changeTodoChecked}
-                    />
+                    <List/>
                     {/*尾部*/}
-                    <Footer
+                    {/*<Footer
                         finishedCount={finishCount}
                         totalCount={todos.length}
                         delCheckedTodo={this._delCheckedTodo}
                         checkedAllTodo={this._checkedAllTodo}
-                    />
+                    />*/}
                 </div>
             </div>
         );

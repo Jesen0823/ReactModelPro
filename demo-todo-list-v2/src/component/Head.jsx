@@ -1,16 +1,19 @@
-import React,{Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {Component} from 'react';
+import store from "../store";
+import {getAddNewItemAction} from "../store/actionCreators";
 
-export default class Head extends Component{
-    static propTypes = {
-        lastTodoId: PropTypes.number.isRequired, // 现有数据的最后一条id
-        addOneTodo:PropTypes.func.isRequired, //添加一条记录
-    };
+export default class Head extends Component {
 
     constructor(props) {
         super(props);
+
         // 绑定ref
         this.myInput = React.createRef();
+
+        this.state = store.getState();
+        //订阅store的改变
+        this._handleStoreChange = this._handleStoreChange.bind(this);
+        store.subscribe(this._handleStoreChange);
     }
 
     render() {
@@ -20,26 +23,31 @@ export default class Head extends Component{
                     ref={this.myInput}
                     type="text"
                     placeholder="请输入任务，按回车键确认"
-                    onKeyDown={(e)=>this._handleKeyEvent(e)}
+                    onKeyDown={(e) => this._handleKeyEvent(e)}
                 />
             </div>
         )
     }
 
-    _handleKeyEvent(e){
-        const {lastTodoId,addOneTodo} = this.props;
-
+    _handleKeyEvent(e) {
+        const {todos} = this.state;
+        const lastTodoId = todos.length === 0 ? 0 : todos[todos.length - 1].id;
         // 判断是否是回车键
-        if(13 === e.keyCode){
-            if(!this.myInput.current.value){
+        if (13 === e.keyCode) {
+            if (!this.myInput.current.value) {
                 alert('输入内容不能为空！');
                 return;
             }
             // 创建todo对象
-            const newTodo = {id:lastTodoId+1,title:this.myInput.current.value,finished:false};
-            addOneTodo(newTodo);
+            const newTodo = {id: lastTodoId + 1, title: this.myInput.current.value, finished: false};
+            const action = getAddNewItemAction(newTodo);
+            store.dispatch(action);
             // 清空控件
-            this.myInput.current.value='';
+            this.myInput.current.value = '';
         }
+    }
+
+    _handleStoreChange() {
+        this.setState(store.getState());
     }
 }

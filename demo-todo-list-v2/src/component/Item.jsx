@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import store from "../store";
+import {getDelItemAction,getChangeItemCheckAction} from "../store/actionCreators";
 
 export default class Item extends Component {
 
@@ -13,12 +15,10 @@ export default class Item extends Component {
 
     static propTypes = {
         todo: PropTypes.object.isRequired,
-        removeTodo: PropTypes.func.isRequired,
-        changeTodoCheck:PropTypes.func.isRequired
     }
 
     render() {
-        const {todo,removeTodo,changeTodoCheck} = this.props;
+        const {todo} = this.props;
         const {showDelBtn} = this.state;
 
         return (
@@ -29,7 +29,7 @@ export default class Item extends Component {
                 <label>
                     <input
                         type="checkbox"
-                        onChange={()=>changeTodoCheck(todo.id,!todo.finished)}
+                        onChange={()=>this._changeTodoCheck(todo.id,!todo.finished)}
                         checked={todo.finished}
                     />
                     <span>{todo.title}</span>
@@ -37,7 +37,7 @@ export default class Item extends Component {
                 <button
                     className="btn btn-warning"
                     style={{display: showDelBtn ? 'block' : 'none'}}
-                    onClick={() => removeTodo(todo.id)}
+                    onClick={() => this._removeItemEvent(todo.id)}
                 >
                     删除
                 </button>
@@ -49,5 +49,15 @@ export default class Item extends Component {
         this.setState({
             showDelBtn: show
         })
+    }
+
+    _removeItemEvent(todoId){
+        const action = getDelItemAction(todoId);
+        store.dispatch(action);
+    }
+
+    _changeTodoCheck(todoId,check){
+        const action = getChangeItemCheckAction(todoId,check);
+        store.dispatch(action);
     }
 }

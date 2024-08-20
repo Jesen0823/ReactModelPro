@@ -1,16 +1,21 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import Item from '../component/Item'
+import store from "../store";
 
 export default class List extends Component {
-    static propTypes = {
-        todos: PropTypes.array.isRequired,
-        removeTodo:PropTypes.func.isRequired, //删除一条记录
-        changeTodoCheck:PropTypes.func.isRequired
-    };
+
+    constructor(props) {
+        super(props);
+
+        this.state = store.getState();
+
+        // 订阅store的改变
+        this._handleStoreChange = this._handleStoreChange.bind(this);
+        store.subscribe(this._handleStoreChange);
+    }
 
     render() {
-        const {todos,removeTodo,changeTodoCheck} = this.props;
+        const {todos} = this.state;
 
         return (
             <ul className="todo-main">
@@ -19,12 +24,15 @@ export default class List extends Component {
                         <Item
                             key={index}
                             todo={todo}
-                            removeTodo={removeTodo}
-                            changeTodoCheck = {changeTodoCheck}
                         />
                     ))
                 }
             </ul>
         )
+    }
+
+    _handleStoreChange(){
+        // 更新状态
+        this.setState(store.getState());
     }
 }
