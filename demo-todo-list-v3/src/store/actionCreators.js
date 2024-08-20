@@ -1,4 +1,17 @@
-import {DEL_TODO_ITEM, CHANGE_ITEM_CHECK, ADD_NEW_ITEM, DEL_CHECKED_ITEM, ALL_CHECKED_OR_NOT_ITEM} from './actionType';
+import {
+    DEL_TODO_ITEM,
+    CHANGE_ITEM_CHECK,
+    ADD_NEW_ITEM,
+    DEL_CHECKED_ITEM,
+    ALL_CHECKED_OR_NOT_ITEM,
+    GET_ALL_ITEM,
+} from './actionType';
+
+// 获取列表数据
+export const getItemListAction = (todos) => ({
+    type: GET_ALL_ITEM,
+    todos
+});
 
 // 删除一条记录
 export const getDelItemAction = (todoId) => ({

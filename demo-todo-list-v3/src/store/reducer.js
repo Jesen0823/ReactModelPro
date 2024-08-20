@@ -1,4 +1,11 @@
-import {DEL_TODO_ITEM, CHANGE_ITEM_CHECK, ADD_NEW_ITEM, DEL_CHECKED_ITEM, ALL_CHECKED_OR_NOT_ITEM} from './actionType';
+import {
+    DEL_TODO_ITEM,
+    CHANGE_ITEM_CHECK,
+    ADD_NEW_ITEM,
+    DEL_CHECKED_ITEM,
+    ALL_CHECKED_OR_NOT_ITEM,
+    GET_ALL_ITEM
+} from './actionType';
 
 
 // 默认数据
@@ -14,6 +21,12 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
     console.log(state, action);
+    // 0. 获取网络列表数据
+    if(action.type === GET_ALL_ITEM){
+        const newState = JSON.parse(JSON.stringify(state));
+        newState.todos = action.todos;
+        return newState;
+    }
     // 1.单条删除
     if (action.type === DEL_TODO_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));

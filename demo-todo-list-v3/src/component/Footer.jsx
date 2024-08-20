@@ -8,7 +8,9 @@ export default class Footer extends Component {
         super(props);
 
         this.state = store.getState();
+    }
 
+    componentDidMount() {
         this._handleStoreChanged = this._handleStoreChanged.bind(this);
         store.subscribe(this._handleStoreChanged);
     }

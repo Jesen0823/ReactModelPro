@@ -9,7 +9,9 @@ export default class Head extends Component {
 
         // 绑定ref
         this.myInput = React.createRef();
+    }
 
+    componentDidMount() {
         this.state = store.getState();
         //订阅store的改变
         this._handleStoreChange = this._handleStoreChange.bind(this);
