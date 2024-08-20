@@ -1,28 +1,46 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import store from "../store";
+import {getCheckedAllItemAction, getDelCheckedItemAction} from "../store/actionCreators";
 
 export default class Footer extends Component {
-    static propTypes = {
-        finishedCount:PropTypes.number.isRequired, // 已完成数量
-        totalCount:PropTypes.number.isRequired, //总数量
-        delCheckedTodo:PropTypes.func.isRequired, // 删除选中的所有
-        checkedAllTodo:PropTypes.func.isRequired, // 全选
+
+    constructor(props) {
+        super(props);
+
+        this.state = store.getState();
+
+        this._handleStoreChanged = this._handleStoreChanged.bind(this);
+        store.subscribe(this._handleStoreChanged);
     }
 
     render() {
-        const {finishedCount,totalCount,delCheckedTodo,checkedAllTodo} = this.props;
+        const {finishCount, todos} = this.state;
         return (
             <div className="todo-footer">
                 <label>
                     <input
                         type="checkbox"
-                        onChange={()=>checkedAllTodo(finishedCount!==totalCount)}
-                        checked={finishedCount === totalCount}
+                        onChange={() => this._checkedAllTodo(finishCount !== todos.length)}
+                        checked={finishCount === todos.length}
                     />
                 </label>
-                <span><span>已完成{finishedCount}件</span> / 总计{totalCount}件</span>
-                <button className="btn btn-warning" onClick={()=>delCheckedTodo()}>清除已完成任务</button>
+                <span><span>已完成{finishCount}件</span> / 总计{todos.length}件</span>
+                <button className="btn btn-warning" onClick={() => this._delCheckedTodo()}>清除已完成任务</button>
             </div>
         )
+    }
+
+    _checkedAllTodo(checked) {
+        const action = getCheckedAllItemAction(checked);
+        store.dispatch(action);
+    }
+
+    _delCheckedTodo() {
+        const action = getDelCheckedItemAction();
+        store.dispatch(action);
+    }
+
+    _handleStoreChanged() {
+        this.setState(store.getState());
     }
 }

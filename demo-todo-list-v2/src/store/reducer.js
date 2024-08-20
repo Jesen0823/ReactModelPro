@@ -1,8 +1,8 @@
-import {DEL_TODO_ITEM,CHANGE_ITEM_CHECK,ADD_NEW_ITEM} from './actionType';
+import {DEL_TODO_ITEM, CHANGE_ITEM_CHECK, ADD_NEW_ITEM, DEL_CHECKED_ITEM, ALL_CHECKED_OR_NOT_ITEM} from './actionType';
 
 
 // 默认数据
-const defaultState={
+const defaultState = {
     todos: [
         {id: 1, title: '看书一小时', finished: false},
         {id: 2, title: '跑步40分钟', finished: false},
@@ -12,8 +12,8 @@ const defaultState={
     finishCount: 0
 }
 
-export default (state = defaultState,action)=>{
-    console.log(state,action);
+export default (state = defaultState, action) => {
+    console.log(state, action);
     if (action.type === DEL_TODO_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
         let checkedCount = 0;
@@ -31,7 +31,7 @@ export default (state = defaultState,action)=>{
         newState.finishCount = checkedCount;
         return newState;
     }
-    if (action.type === CHANGE_ITEM_CHECK){
+    if (action.type === CHANGE_ITEM_CHECK) {
         const newState = JSON.parse(JSON.stringify(state));
         let checkedCount = 0;
         newState.todos.forEach((todo, index) => {
@@ -45,9 +45,30 @@ export default (state = defaultState,action)=>{
         newState.finishCount = checkedCount;
         return newState;
     }
-    if (action.type === ADD_NEW_ITEM){
+    if (action.type === ADD_NEW_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
         newState.todos.push(action.todo);
+        return newState;
+    }
+    if (action.type === DEL_CHECKED_ITEM) {
+        const newState = JSON.parse(JSON.stringify(state));
+        let tempNoDel = [];
+        newState.todos.forEach((todo, index) => {
+            if (!todo.finished) {
+                tempNoDel.push(todo)
+            }
+        });
+        // 更新状态
+        newState.todos = tempNoDel;
+        newState.finishCount = 0;
+        return newState;
+    }
+    if (action.type === ALL_CHECKED_OR_NOT_ITEM) {
+        const newState = JSON.parse(JSON.stringify(state));
+        newState.todos.forEach((todo, index) => {
+            todo.finished = action.checked;
+        })
+        newState.finishCount = action.checked === true ? newState.todos.length : 0
         return newState;
     }
 

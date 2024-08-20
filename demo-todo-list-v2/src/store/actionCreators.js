@@ -1,4 +1,4 @@
-import {DEL_TODO_ITEM, CHANGE_ITEM_CHECK, ADD_NEW_ITEM} from './actionType';
+import {DEL_TODO_ITEM, CHANGE_ITEM_CHECK, ADD_NEW_ITEM,DEL_CHECKED_ITEM,ALL_CHECKED_OR_NOT_ITEM} from './actionType';
 
 // 删除一条记录
 export const getDelItemAction = (todoId) => ({
@@ -17,4 +17,15 @@ export const getChangeItemCheckAction = (todoId, checked) => ({
 export const getAddNewItemAction = (todo) => ({
     type: ADD_NEW_ITEM,
     todo
+})
+
+// 删除已完成或已选中的任务
+export const getDelCheckedItemAction = ()=>({
+    type:DEL_CHECKED_ITEM,
+})
+
+// 全选或反选所有任务
+export const getCheckedAllItemAction = (checked)=>({
+    type:ALL_CHECKED_OR_NOT_ITEM,
+    checked
 })
