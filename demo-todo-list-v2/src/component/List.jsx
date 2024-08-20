@@ -31,7 +31,7 @@ export default class List extends Component {
         )
     }
 
-    _handleStoreChange(){
+    _handleStoreChange() {
         // 更新状态
         this.setState(store.getState());
     }

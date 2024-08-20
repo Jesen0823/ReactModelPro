@@ -14,6 +14,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
     console.log(state, action);
+    // 1.单条删除
     if (action.type === DEL_TODO_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
         let checkedCount = 0;
@@ -31,6 +32,7 @@ export default (state = defaultState, action) => {
         newState.finishCount = checkedCount;
         return newState;
     }
+    // 2. 单条勾选
     if (action.type === CHANGE_ITEM_CHECK) {
         const newState = JSON.parse(JSON.stringify(state));
         let checkedCount = 0;
@@ -45,11 +47,13 @@ export default (state = defaultState, action) => {
         newState.finishCount = checkedCount;
         return newState;
     }
+    // 3. 新增条目
     if (action.type === ADD_NEW_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
         newState.todos.push(action.todo);
         return newState;
     }
+    // 4. 删除已勾选
     if (action.type === DEL_CHECKED_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
         let tempNoDel = [];
@@ -63,6 +67,7 @@ export default (state = defaultState, action) => {
         newState.finishCount = 0;
         return newState;
     }
+    // 5. 全选反全选
     if (action.type === ALL_CHECKED_OR_NOT_ITEM) {
         const newState = JSON.parse(JSON.stringify(state));
         newState.todos.forEach((todo, index) => {

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import store from "../store";
-import {getDelItemAction,getChangeItemCheckAction} from "../store/actionCreators";
+import {getDelItemAction, getChangeItemCheckAction} from "../store/actionCreators";
 
 export default class Item extends Component {
 
@@ -11,10 +10,6 @@ export default class Item extends Component {
         this.state = {
             showDelBtn: false
         }
-    }
-
-    static propTypes = {
-        todo: PropTypes.object.isRequired,
     }
 
     render() {
@@ -29,7 +24,7 @@ export default class Item extends Component {
                 <label>
                     <input
                         type="checkbox"
-                        onChange={()=>this._changeTodoCheck(todo.id,!todo.finished)}
+                        onChange={() => this._changeTodoCheck(todo.id, !todo.finished)}
                         checked={todo.finished}
                     />
                     <span>{todo.title}</span>
@@ -51,13 +46,13 @@ export default class Item extends Component {
         })
     }
 
-    _removeItemEvent(todoId){
+    _removeItemEvent(todoId) {
         const action = getDelItemAction(todoId);
         store.dispatch(action);
     }
 
-    _changeTodoCheck(todoId,check){
-        const action = getChangeItemCheckAction(todoId,check);
+    _changeTodoCheck(todoId, check) {
+        const action = getChangeItemCheckAction(todoId, check);
         store.dispatch(action);
     }
 }
