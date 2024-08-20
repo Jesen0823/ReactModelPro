@@ -20,6 +20,8 @@
 demo-todo-list-v1/node_modules/.*/
 demo-todo-list-v2/node_modules/.*/
 demo-todo-list-v3/node_modules/.*/
+react-api/node_modules/.*/
+
 /../.pnp
 .pnp.js
 
