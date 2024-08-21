@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from "react";
+import Head from './component/Head'
+import List from './component/List'
+import Footer from './component/Footer'
+import {getTodoList} from "./api";
+import store from "./store";
+import {getItemListAction} from "./store/actionCreators";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+    componentDidMount() {
+        const action = getItemListAction();
+        store.dispatch(action);
+        console.log(action);
+    }
+
+    render() {
+        return (
+            <div class="todo-container">
+                <div class="todo-wrap">
+                    {/*头部*/}
+                    <Head/>
+                    {/*列表*/}
+                    <List/>
+                    {/*尾部*/}
+                    <Footer/>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
