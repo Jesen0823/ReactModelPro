@@ -9,9 +9,16 @@ import {getItemListAction} from "./store/actionCreators";
 class App extends Component {
 
     componentDidMount() {
-        const action = getItemListAction();
-        store.dispatch(action);
-        console.log(action);
+        this._reqTodoList();
+    }
+
+    async _reqTodoList(){
+        const result = await getTodoList();
+        console.log(result);
+        if (result.success_code === 200){
+            const action = getItemListAction(result.items);
+            store.dispatch(action);
+        }
     }
 
     render() {
