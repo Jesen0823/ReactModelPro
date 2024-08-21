@@ -4,3 +4,4 @@ export const ADD_NEW_ITEM = 'add_new_item';
 export const DEL_CHECKED_ITEM = 'del_checked_item';
 export const ALL_CHECKED_OR_NOT_ITEM = 'all_checked_or_not_item';
 export const GET_ALL_ITEM = 'get_all_item';
+export const REQ_ALL_ITEM = 'req_all_item';  // 告诉sagas请求列表数据
