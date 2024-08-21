@@ -1,12 +1,11 @@
 import React, {Component} from "react";
-import Head from './component/Head'
-import List from './component/List'
-import Footer from './component/Footer'
-import {getTodoList} from "./api";
-import store from "./store";
-import {getItemListAction} from "./store/actionCreators";
+import Head from './Head'
+import List from './List'
+import Footer from './Footer'
+import store from ".././store";
+import {getItemListAction} from '../store/actionCreators';
 
-class App extends Component {
+class TodoEntry extends Component {
 
     componentDidMount() {
         const action = getItemListAction();
@@ -30,4 +29,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default TodoEntry;
