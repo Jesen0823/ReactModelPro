@@ -1,48 +1,46 @@
 import React, {Component} from 'react';
-import store from "../store";
-import {getCheckedAllItemAction, getDelCheckedItemAction} from "../store/actionCreators";
+import { getCheckedAllItemAction, getDelCheckedItemAction} from "../store/actionCreators";
+import {connect} from "react-redux";
 
-export default class Footer extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = store.getState();
-    }
-
-    componentDidMount() {
-        this._handleStoreChanged = this._handleStoreChanged.bind(this);
-        store.subscribe(this._handleStoreChanged);
-    }
+class Footer extends Component {
 
     render() {
-        const {finishCount, todos} = this.state;
+        const {finishCount, todos,checkedAllTodo,delCheckedTodos} = this.props;
         return (
             <div className="todo-footer">
                 <label>
                     <input
                         type="checkbox"
-                        onChange={() => this._checkedAllTodo(finishCount !== todos.length)}
+                        onChange={() => checkedAllTodo(finishCount !== todos.length)}
                         checked={finishCount === todos.length}
                     />
                 </label>
                 <span><span>已完成{finishCount}件</span> / 总计{todos.length}件</span>
-                <button className="btn btn-warning" onClick={() => this._delCheckedTodo()}>清除已完成任务</button>
+                <button className="btn btn-warning" onClick={() => delCheckedTodos()}>清除已完成任务</button>
             </div>
         )
     }
-
-    _checkedAllTodo(checked) {
-        const action = getCheckedAllItemAction(checked);
-        store.dispatch(action);
-    }
-
-    _delCheckedTodo() {
-        const action = getDelCheckedItemAction();
-        store.dispatch(action);
-    }
-
-    _handleStoreChanged() {
-        this.setState(store.getState());
-    }
 }
+
+
+const mapStateToProps = (state)=>{
+    return{
+        todos:state.todos,
+        finishCount:state.finishCount
+    };
+};
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        checkedAllTodo(checked) {
+            const action = getCheckedAllItemAction(checked);
+            dispatch(action);
+        },
+        delCheckedTodos() {
+            const action = getDelCheckedItemAction();
+            dispatch(action);
+        }
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Footer)

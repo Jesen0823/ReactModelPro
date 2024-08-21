@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import store from "../store";
-import {getDelItemAction, getChangeItemCheckAction} from "../store/actionCreators";
+import {getDelItemAction, getChangeItemCheckAction, getAddNewItemAction} from "../store/actionCreators";
+import {connect} from "react-redux";
 
-export default class Item extends Component {
+class Item extends Component {
 
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ export default class Item extends Component {
     }
 
     render() {
-        const {todo} = this.props;
+        const {todo,removeItemEvent,changeTodoCheck} = this.props;
         const {showDelBtn} = this.state;
 
         return (
@@ -24,7 +24,7 @@ export default class Item extends Component {
                 <label>
                     <input
                         type="checkbox"
-                        onChange={() => this._changeTodoCheck(todo.id, !todo.finished)}
+                        onChange={() => changeTodoCheck(todo.id, !todo.finished)}
                         checked={todo.finished}
                     />
                     <span>{todo.title}</span>
@@ -32,7 +32,7 @@ export default class Item extends Component {
                 <button
                     className="btn btn-warning"
                     style={{display: showDelBtn ? 'block' : 'none'}}
-                    onClick={() => this._removeItemEvent(todo.id)}
+                    onClick={() => removeItemEvent(todo.id)}
                 >
                     删除
                 </button>
@@ -45,14 +45,19 @@ export default class Item extends Component {
             showDelBtn: show
         })
     }
-
-    _removeItemEvent(todoId) {
-        const action = getDelItemAction(todoId);
-        store.dispatch(action);
-    }
-
-    _changeTodoCheck(todoId, check) {
-        const action = getChangeItemCheckAction(todoId, check);
-        store.dispatch(action);
-    }
 }
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        removeItemEvent(todoId) {
+            const action = getDelItemAction(todoId);
+            dispatch(action);
+        },
+        changeTodoCheck(todoId, check) {
+            const action = getChangeItemCheckAction(todoId, check);
+            dispatch(action);
+        }
+    }
+};
+
+export default connect(null,mapDispatchToProps)(Item)

@@ -1,23 +1,11 @@
 import React, {Component} from 'react';
 import Item from '../component/Item'
-import store from "../store";
+import {connect} from 'react-redux';
 
-export default class List extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = store.getState();
-    }
-
-    componentDidMount() {
-        // 订阅store的改变
-        this._handleStoreChange = this._handleStoreChange.bind(this);
-        store.subscribe(this._handleStoreChange);
-    }
+class List extends Component {
 
     render() {
-        const {todos} = this.state;
+        const {todos} = this.props;
 
         return (
             <ul className="todo-main">
@@ -32,9 +20,12 @@ export default class List extends Component {
             </ul>
         )
     }
-
-    _handleStoreChange() {
-        // 更新状态
-        this.setState(store.getState());
-    }
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        todos:state.todos
+    };
+};
+
+export default connect(mapStateToProps,null)(List)

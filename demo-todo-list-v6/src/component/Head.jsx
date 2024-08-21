@@ -1,21 +1,14 @@
 import React, {Component} from 'react';
-import store from "../store";
 import {getAddNewItemAction} from "../store/actionCreators";
+import {connect} from 'react-redux';
 
-export default class Head extends Component {
+class Head extends Component {
 
     constructor(props) {
         super(props);
 
         // 绑定ref
         this.myInput = React.createRef();
-    }
-
-    componentDidMount() {
-        this.state = store.getState();
-        //订阅store的改变
-        this._handleStoreChange = this._handleStoreChange.bind(this);
-        store.subscribe(this._handleStoreChange);
     }
 
     render() {
@@ -32,7 +25,7 @@ export default class Head extends Component {
     }
 
     _handleKeyEvent(e) {
-        const {todos} = this.state;
+        const {todos} = this.props;
         const lastTodoId = todos.length === 0 ? 0 : todos[todos.length - 1].id;
         // 判断是否是回车键
         if (13 === e.keyCode) {
@@ -42,14 +35,26 @@ export default class Head extends Component {
             }
             // 创建todo对象
             const newTodo = {id: lastTodoId + 1, title: this.myInput.current.value, finished: false};
-            const action = getAddNewItemAction(newTodo);
-            store.dispatch(action);
+            this.props.addNewTodoItem(newTodo);
             // 清空控件
             this.myInput.current.value = '';
         }
     }
-
-    _handleStoreChange() {
-        this.setState(store.getState());
-    }
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        todos:state.todos
+    };
+};
+
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        addNewTodoItem(todo){
+            const action = getAddNewItemAction(todo);
+            dispatch(action);
+        }
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Head)

@@ -2,15 +2,13 @@ import React, {Component} from "react";
 import Head from './Head'
 import List from './List'
 import Footer from './Footer'
-import store from ".././store";
 import {getItemListAction} from '../store/actionCreators';
+import {connect} from 'react-redux';
 
 class TodoEntry extends Component {
 
     componentDidMount() {
-        const action = getItemListAction();
-        store.dispatch(action);
-        console.log(action);
+        this.props.reqTodoList();
     }
 
     render() {
@@ -29,4 +27,15 @@ class TodoEntry extends Component {
     }
 }
 
-export default TodoEntry;
+// 实现配发
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        reqTodoList(){
+            const action = getItemListAction();
+            console.log(action);
+            dispatch(action);
+        }
+    }
+}
+
+export default connect(null,mapDispatchToProps)(TodoEntry);
