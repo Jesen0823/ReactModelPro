@@ -11,10 +11,10 @@ import {
 // 默认数据
 const defaultState = {
     todos: [
-        {id: 1, title: '看书一小时', finished: false},
-        {id: 2, title: '跑步40分钟', finished: false},
-        {id: 3, title: '完成React学习', finished: false},
-        {id: 4, title: '给兰花浇水', finished: false}
+        {id: 1, title: '测试|看书一小时', finished: false},
+        {id: 2, title: '测试|跑步40分钟', finished: false},
+        {id: 3, title: '测试|完成React学习', finished: false},
+        {id: 4, title: '测试|给兰花浇水', finished: false}
     ],
     finishCount: 0
 }
