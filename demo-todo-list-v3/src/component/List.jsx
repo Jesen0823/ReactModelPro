@@ -8,9 +8,7 @@ export default class List extends Component {
         super(props);
 
         this.state = store.getState();
-    }
 
-    componentDidMount() {
         // 订阅store的改变
         this._handleStoreChange = this._handleStoreChange.bind(this);
         store.subscribe(this._handleStoreChange);
