@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import Hot from './component/Hot';
 import Recommend from './component/Recommend';
 import Follow from './component/Follow';
+import HotDetail from './component/HotDetail';
 
 class App extends Component{
 
@@ -29,7 +30,7 @@ class App extends Component{
                 <Route path ="/" component={Recommend}/>
                 <Route path ="/hot/" component={Hot}/>
                 <Route path ="/follow/" component={Follow}/>
-
+                <Route path="/hot_detail" component={HotDetail}/>
             </div>
         </Router>
     );
